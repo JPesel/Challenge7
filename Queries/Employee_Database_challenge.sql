@@ -30,3 +30,20 @@ FROM unique_titles ut
 GROUP BY title
 order by 1 desc
 
+--Creating mentorship eligibility table
+SELECT distinct on (e.emp_no) e.emp_no
+, e.first_name
+, e.last_name
+, e.birth_date
+, de.from_date
+, de.to_date
+, ti.title
+INTO mentorship_eligibilty
+FROM employees e
+left join dept_emp de
+on e.emp_no = de.emp_no
+left join titles ti
+on e.emp_no = ti.emp_no
+where de.to_date = '9999-01-01'
+AND (e.birth_date between '1965-01-01' AND '1965-12-31')
+order by e.emp_no, ti.to_date desc
